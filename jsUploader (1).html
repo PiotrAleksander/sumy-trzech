@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<body>
+<img src="" id="image">
+<input id="input" type="file" onchange="handleFiles()">
+<script>
+
+function handleFiles()
+{
+    var filesToUpload = document.getElementById('input').files;
+    var file = filesToUpload[0];
+
+    // Create an image
+    var img = document.createElement("img");
+    // Create a file reader
+    var reader = new FileReader();
+    // Set the image once loaded into file reader
+    reader.onload = function(e)
+    {
+        img.src = e.target.result;
+
+        var canvas = document.createElement("canvas");
+        //var canvas = $("<canvas>", {"id":"testing"})[0];
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var width = img.width * 0.5;
+        var height = img.height * 0.5;
+        
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        var dataurl = canvas.toDataURL("image/png");
+        document.getElementById('image').src = dataurl;     
+    }
+    // Load files into file reader
+    reader.readAsDataURL(file);
+
+
+    // Post the data
+    /*
+    var fd = new FormData();
+    fd.append("name", "some_filename.jpg");
+    fd.append("image", dataurl);
+    fd.append("info", "lah_de_dah");
+    */
+}</script>
+
+</body>
+</html>
